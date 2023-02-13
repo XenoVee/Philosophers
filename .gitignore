@@ -1,0 +1,6 @@
+*
+!*/
+
+#Whitelist
+!.gitignore
+!Makefile
