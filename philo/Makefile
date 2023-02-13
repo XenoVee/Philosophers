@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/02/13 15:30:09 by rmaes         ########   odam.nl          #
+#    Updated: 2023/02/13 17:40:15 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ GREEN = \033[0;92m
 YELLOW = \033[0;93m
 
 SOURCES_DIR = sources/
-FILES =	
+FILES =	philosophers.c
 SOURCES = $(addprefix $(SOURCES_DIR), $(FILES))
 
 OBJECTS_DIR = objects/
@@ -28,14 +28,14 @@ CDL_LIST = cdl_list/cdl_list.a
 
 CFLAGS = -Wall -Wextra -Werror
 CC = gcc
-NAME = 
+NAME = philosophers
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS) $(CDL_LIST)
 	@echo "compiling: $(YELLOW)creating executable$(DEFAULT)"
 	@gcc -o $@ $^
-	@echo "$(GREEN)$@ successfully compiled!"
+	@echo "$(GREEN)$@ successfully compiled!$(DEFAULT)"
 
 $(CDL_LIST):
 	@make -C cdl_list
