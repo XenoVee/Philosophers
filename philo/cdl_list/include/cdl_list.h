@@ -6,7 +6,7 @@
 /*   By: athena <athena@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/13 13:05:43 by athena        #+#    #+#                 */
-/*   Updated: 2023/02/13 15:44:52 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/03/07 14:20:19 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <stdbool.h>
+# include <pthread.h>
 
 // A singular node in the list. 
 // Prev and Next point to the previous and next nodes in the list respectively
@@ -22,7 +23,8 @@
 typedef struct s_dlnode
 {
 	struct s_dlnode	*prev;
-	bool			taken;
+	pthread_mutex_t	*mutex;
+	unsigned int	n;
 	struct s_dlnode	*next;
 }				t_dlnode;
 
@@ -46,6 +48,6 @@ void		cdl_listclear(t_dllist *list);
 t_dlnode	*cdl_listgetnode(t_dllist *list, int n);
 t_dllist	*cdl_listinit(void);
 t_dlnode	*cdl_listpopnode(t_dllist *list, int n);
-t_dlnode	*cdl_nodenew(void);
+t_dlnode	*cdl_nodenew(int n);
 
 #endif

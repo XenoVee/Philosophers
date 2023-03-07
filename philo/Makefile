@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/02/13 17:40:15 by rmaes         ########   odam.nl          #
+#    Updated: 2023/03/02 16:22:28 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ GREEN = \033[0;92m
 YELLOW = \033[0;93m
 
 SOURCES_DIR = sources/
-FILES =	philosophers.c
+FILES =	philosophers.c philosophers_utils.c
 SOURCES = $(addprefix $(SOURCES_DIR), $(FILES))
 
 OBJECTS_DIR = objects/
@@ -26,7 +26,7 @@ OBJECTS = $(addprefix $(OBJECTS_DIR), $(FILES:.c=.o))
 
 CDL_LIST = cdl_list/cdl_list.a
 
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 NAME = philosophers
 
@@ -50,10 +50,12 @@ $(OBJECTS_DIR)%.o: $(SOURCES_DIR)%.c
 
 clean:
 	@echo "cleaning:  $(RED)removing object files$(DEFAULT)"
+	@make clean -C cdl_list
 	@rm -f $(OBJECTS)
 
 fclean: clean
 	@echo "cleaning:  $(RED)removing $(NAME)$(DEFAULT)"
+	@make rmlib -C cdl_list
 	@rm -f $(NAME)
 
 re: fclean all
