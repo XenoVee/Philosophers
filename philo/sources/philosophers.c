@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/07 21:47:37 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 15:21:25 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ int	check_dead(t_args *args, unsigned int eat)
 	if (t - eat > args->params->tdie)
 	{
 		pthread_mutex_lock(&args->params->dead_mutex);
+		ft_usleep(1);
+		if (all_alive(args))
+			printf("%lu %i has died\n",
+				timestamp() - 1 - args->params->start_time, args->philo);
 		args->params->dead = TRUE;
 		pthread_mutex_unlock(&args->params->dead_mutex);
-		ft_usleep(1);
-		printf("%lu %i has died\n",
-			timestamp() - 1 - args->params->start_time, args->philo);
 		return (TRUE);
 	}
 	else
