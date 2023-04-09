@@ -6,11 +6,12 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/09 18:18:48 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 18:30:22 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 18:32:06 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+#include <stdio.h>
 
 int	all_finished(t_args *args)
 {

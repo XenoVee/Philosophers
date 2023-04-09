@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:37:10 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 18:19:44 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 18:32:01 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ void			message(t_args *args, int message);
 int				all_alive(t_args *args);
 int				all_finished(t_args *args);
 void			set_finished(t_args *args);
+int				all_alive(t_args *args);
+int				check_dead(t_args *args, unsigned int eat);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 18:29:02 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 18:32:39 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <stdlib.h>
 
 int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
 {
