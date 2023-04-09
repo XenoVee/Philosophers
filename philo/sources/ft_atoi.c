@@ -6,9 +6,16 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/17 16:41:27 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/03/07 16:59:21 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 15:35:25 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+int	ft_min(int n, int d)
+{
+	if (n > d)
+		return (d);
+	return (n);
+}
 
 int	ft_strcmp(const char *str1, const char *str2)
 {

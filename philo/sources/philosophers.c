@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 15:22:19 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 18:18:35 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	check_dead(t_args *args, unsigned int eat)
 	unsigned int	t;
 
 	t = timestamp();
-	if (t - eat > args->params->tdie)
+	pthread_mutex_lock(&args->params->dead_mutex);
+	if (t - eat > args->params->tdie && args->params->dead == FALSE)
 	{
-		pthread_mutex_lock(&args->params->dead_mutex);
 		args->params->dead = TRUE;
 		pthread_mutex_unlock(&args->params->dead_mutex);
 		ft_usleep(1);
@@ -43,30 +43,48 @@ int	check_dead(t_args *args, unsigned int eat)
 			timestamp() - 1 - args->params->start_time, args->philo);
 		return (TRUE);
 	}
-	else
-		return (FALSE);
+	pthread_mutex_unlock(&args->params->dead_mutex);
+	return (FALSE);
+}
+
+int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
+{
+	if (args->params->nphilo != 1)
+		pthread_mutex_lock(&fork->mutex);
+	check_dead(args, eat);
+	message(args, FORK);
+	if (args->params->nphilo != 1)
+		pthread_mutex_lock(&fork->next->mutex);
+	check_dead(args, eat);
+	message(args, FORK);
+	if (args->params->nphilo != 1)
+		return (0);
+	ft_usleep(args->params->tdie);
+	printf("%lu %i has died\n",
+		timestamp() - 1 - args->params->start_time, args->philo);
+	return (1);
 }
 
 void	*threadfunc(void *p)
 {
 	t_args			*args;
 	unsigned int	eat;
+	int				i;
 
 	args = p;
+	i = 0;
 	eat = timestamp();
 	if (args->philo % 2)
-		usleep(5000);
-	while (all_alive(args))
+		usleep(ft_min(5000, args->params->teat * 1000 - 100));
+	while (all_alive(args) && !all_finished(args))
 	{
-		pthread_mutex_lock(&args->fork->mutex);
-		check_dead(args, eat);
-		message(args, FORK);
-		pthread_mutex_lock(&args->fork->next->mutex);
-		check_dead(args, eat);
-		message(args, FORK);
+		grab_fork(args, args->fork, eat);
 		message(args, EAT);
+		i++;
 		eat = timestamp();
 		ft_usleep(args->params->teat);
+		if ((unsigned int)i == args->params->neat)
+			set_finished(args);
 		pthread_mutex_unlock(&args->fork->mutex);
 		pthread_mutex_unlock(&args->fork->next->mutex);
 		message(args, SLEEP);

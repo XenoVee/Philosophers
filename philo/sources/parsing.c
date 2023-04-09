@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/06 17:30:37 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 17:30:09 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 int	parse_input(t_params *params, int argc, char **argv)
 {
 	int				i;
-	struct timeval	start;
 
 	i = 1;
 	if (argc != 5 && argc != 6)
@@ -91,11 +90,11 @@ int	parse_input(t_params *params, int argc, char **argv)
 	params->tsleep = ft_atoi(argv[4]);
 	params->dead = FALSE;
 	pthread_mutex_init(&params->dead_mutex, NULL);
+	params->neat = 0;
 	if (argc == 6)
 		params->neat = ft_atoi(argv[5]);
-	else
-		params->neat = 0;
-	gettimeofday(&start, NULL);
-	params->start_time = (start.tv_sec * 1000 + start.tv_usec / 1000);
+	params->finished = 0;
+	pthread_mutex_init(&params->fin_mutex, NULL);
+	params->start_time = timestamp();
 	return (0);
 }

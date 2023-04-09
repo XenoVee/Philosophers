@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 16:21:04 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/07 21:48:02 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 17:53:50 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned long	timestamp(void)
 
 void	message(t_args *args, int message)
 {
-	if (!all_alive(args))
+	if (!all_alive(args) || all_finished(args))
 		return ;
 	pthread_mutex_unlock(&args->params->dead_mutex);
 	if (message == FORK)

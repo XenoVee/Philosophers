@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:37:10 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/07 21:42:01 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 18:19:44 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_params
 	unsigned long	start_time;
 	int				dead;
 	pthread_mutex_t	dead_mutex;
+	unsigned int	finished;
+	pthread_mutex_t	fin_mutex;
 }				t_params;
 
 typedef struct s_args
@@ -53,6 +55,7 @@ int				parse_input(t_params *params, int argc, char **argv);
 t_args			**setup_args(int nphilo, t_dllist *list, t_params *params);
 t_dllist		*make_table(int nphilos);
 
+int				ft_min(int n, int d);
 int				isint(char *str);
 int				eerror(char *msg);
 int				ft_atoi(const char *str);
@@ -60,5 +63,7 @@ void			ft_usleep(unsigned int time);
 unsigned long	timestamp(void);
 void			message(t_args *args, int message);
 int				all_alive(t_args *args);
+int				all_finished(t_args *args);
+void			set_finished(t_args *args);
 
 #endif
