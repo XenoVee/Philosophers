@@ -4,3 +4,8 @@
 #Whitelist
 !.gitignore
 !Makefile
+!ft_atoi.c
+!parsing.c
+!philosophers_utils.c
+!philosophers.h
+!philosophers.c
