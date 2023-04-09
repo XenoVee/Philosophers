@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 18:18:35 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 18:29:02 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,53 +16,26 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int	all_alive(t_args *args)
-{
-	int	ret;
-
-	ret = TRUE;
-	pthread_mutex_lock(&args->params->dead_mutex);
-	if (args->params->dead == TRUE)
-		ret = FALSE;
-	pthread_mutex_unlock(&args->params->dead_mutex);
-	return (ret);
-}
-
-int	check_dead(t_args *args, unsigned int eat)
-{
-	unsigned int	t;
-
-	t = timestamp();
-	pthread_mutex_lock(&args->params->dead_mutex);
-	if (t - eat > args->params->tdie && args->params->dead == FALSE)
-	{
-		args->params->dead = TRUE;
-		pthread_mutex_unlock(&args->params->dead_mutex);
-		ft_usleep(1);
-		printf("%lu %i has died\n",
-			timestamp() - 1 - args->params->start_time, args->philo);
-		return (TRUE);
-	}
-	pthread_mutex_unlock(&args->params->dead_mutex);
-	return (FALSE);
-}
-
 int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
 {
 	if (args->params->nphilo != 1)
 		pthread_mutex_lock(&fork->mutex);
 	check_dead(args, eat);
 	message(args, FORK);
-	if (args->params->nphilo != 1)
-		pthread_mutex_lock(&fork->next->mutex);
+	if (args->params->nphilo == 1)
+	{
+		ft_usleep(args->params->tdie);
+		printf("%lu %i has died\n",
+			timestamp() - 1 - args->params->start_time, args->philo);
+		pthread_mutex_lock(&args->params->dead_mutex);
+		args->params->dead = TRUE;
+		pthread_mutex_unlock(&args->params->dead_mutex);
+		return (1);
+	}
+	pthread_mutex_lock(&fork->next->mutex);
 	check_dead(args, eat);
 	message(args, FORK);
-	if (args->params->nphilo != 1)
-		return (0);
-	ft_usleep(args->params->tdie);
-	printf("%lu %i has died\n",
-		timestamp() - 1 - args->params->start_time, args->philo);
-	return (1);
+	return (0);
 }
 
 void	*threadfunc(void *p)
