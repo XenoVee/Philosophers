@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 18:32:39 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 19:15:17 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
 	if (args->params->nphilo == 1)
 	{
 		ft_usleep(args->params->tdie);
+		pthread_mutex_lock(&args->params->start_mutex);
 		printf("%lu %i has died\n",
 			timestamp() - 1 - args->params->start_time, args->philo);
+		pthread_mutex_unlock(&args->params->start_mutex);
 		pthread_mutex_lock(&args->params->dead_mutex);
 		args->params->dead = TRUE;
 		pthread_mutex_unlock(&args->params->dead_mutex);
@@ -48,6 +50,7 @@ void	*threadfunc(void *p)
 	eat = timestamp();
 	if (args->philo % 2)
 		usleep(ft_min(5000, args->params->teat * 1000 - 100));
+	// pthread_mutex_lock(&args->params->dead_mutex);
 	while (all_alive(args) && !all_finished(args))
 	{
 		grab_fork(args, args->fork, eat);

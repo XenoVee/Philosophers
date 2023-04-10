@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/04/09 18:30:39 by rmaes         ########   odam.nl          #
+#    Updated: 2023/04/09 18:44:50 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJECTS = $(addprefix $(OBJECTS_DIR), $(FILES:.c=.o))
 
 CDL_LIST = cdl_list/cdl_list.a
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 CC = gcc
 NAME = philosophers
 
@@ -34,7 +34,7 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS) $(CDL_LIST)
 	@echo "compiling: $(YELLOW)creating executable$(DEFAULT)"
-	@gcc -o $@ $^
+	@$(CC) -o $@ $^ $(CFLAGS)
 	@echo "$(GREEN)$@ successfully compiled!$(DEFAULT)"
 
 $(CDL_LIST):

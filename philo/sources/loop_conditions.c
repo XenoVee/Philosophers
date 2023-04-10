@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/09 18:18:48 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 18:32:06 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/09 19:28:19 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	all_alive(t_args *args)
 
 	ret = TRUE;
 	pthread_mutex_lock(&args->params->dead_mutex);
+	fprintf(stderr, "%p (size %lu)\n", &args->params->dead, sizeof(args->params->dead));
 	if (args->params->dead == TRUE)
 		ret = FALSE;
 	pthread_mutex_unlock(&args->params->dead_mutex);
@@ -57,8 +58,10 @@ int	check_dead(t_args *args, unsigned int eat)
 		args->params->dead = TRUE;
 		pthread_mutex_unlock(&args->params->dead_mutex);
 		ft_usleep(1);
+		pthread_mutex_lock(&args->params->start_mutex);
 		printf("%lu %i has died\n",
 			timestamp() - 1 - args->params->start_time, args->philo);
+		pthread_mutex_unlock(&args->params->start_mutex);
 		return (TRUE);
 	}
 	pthread_mutex_unlock(&args->params->dead_mutex);
