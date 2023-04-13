@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/13 14:49:01 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:56:41 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	parse_input(t_params *params, int argc, char **argv)
 		params->neat = ft_atoi(argv[5]);
 	params->finished = 0;
 	pthread_mutex_init(&params->fin_mutex, NULL);
-	pthread_mutex_init(&params->start_mutex, NULL);
 	params->start_time = timestamp();
 	return (0);
 }
