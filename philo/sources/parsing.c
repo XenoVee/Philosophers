@@ -6,36 +6,14 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 19:13:22 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:49:01 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <stdlib.h>
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}	
-
-int	isint(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (ft_isdigit(str[i]) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
+#include <limits.h>
+#include <stdio.h>
 
 t_dllist	*make_table(int nphilos)
 {
@@ -81,7 +59,7 @@ int	parse_input(t_params *params, int argc, char **argv)
 	while (i < argc)
 	{
 		if (!isint(argv[i]))
-			return (eerror("Noninteger argument"));
+			return (eerror("Invalid argument"));
 		i++;
 	}
 	params->nphilo = ft_atoi(argv[1]);

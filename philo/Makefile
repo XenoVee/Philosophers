@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/04/13 14:08:40 by rmaes         ########   odam.nl          #
+#    Updated: 2023/04/13 14:45:52 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ GREEN = \033[0;92m
 YELLOW = \033[0;93m
 
 SOURCES_DIR = sources/
-FILES =	philosophers.c philosophers_utils.c ft_atoi.c parsing.c loop_conditions.c
+FILES =	philosophers.c philosophers_utils.c ft_atoi.c parsing.c loop_conditions.c isint.c
 SOURCES = $(addprefix $(SOURCES_DIR), $(FILES))
 
 OBJECTS_DIR = objects/

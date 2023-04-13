@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:37:10 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 19:13:15 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:46:12 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ int				all_finished(t_args *args);
 void			set_finished(t_args *args);
 int				all_alive(t_args *args);
 int				check_dead(t_args *args, unsigned int eat);
+int				max_check(const char *str);
+int				ft_strcmp(const char *str1, const char *str2);
 
 #endif

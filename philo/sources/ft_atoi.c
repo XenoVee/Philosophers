@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/17 16:41:27 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 15:35:25 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:41:42 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,7 @@ int	ft_strcmp(const char *str1, const char *str2)
 	return (str2[i] - str1[i]);
 }
 
-static int	max_check(const char *str, int sign)
-{
-	int	i;
-	int	ret;
-
-	i = 0;
-	ret = 1;
-	while (str[i] >= 48 && str[i] <= 57)
-		i++;
-	if (i > 10 && sign == 1)
-		ret = -1;
-	if (i > 10 && sign == -1)
-		ret = 0;
-	if (sign == 1 && i == 10)
-	{
-		if (ft_strcmp(str, "2147483647") < 0)
-			ret = -1;
-	}
-	if (sign == -1 && i == 10)
-	{
-		if (ft_strcmp(str, "2147483648") < 0)
-			ret = 0;
-	}
-	return (ret);
-}
-
-int	ft_atoi(const char *str)
+unsigned int	ft_atoi(const char *str)
 {
 	int	sign;
 	int	num;
@@ -62,15 +36,8 @@ int	ft_atoi(const char *str)
 	num = 0;
 	while ((str[0] >= 9 && str[0] <= 13) || str[0] == 32)
 		str++;
-	if (str[0] == '-')
-	{
-		sign = -1;
-		str++;
-	}
 	if (str[0] == '+' && sign != -1)
 		str++;
-	if (max_check(str, sign) != 1)
-		return (max_check(str, sign));
 	while (str[0] >= '0' && str[0] <= '9')
 	{
 		num = num * 10 + str[0] - 48;
