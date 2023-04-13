@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/04/09 18:44:50 by rmaes         ########   odam.nl          #
+#    Updated: 2023/04/11 16:53:45 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CDL_LIST = cdl_list/cdl_list.a
 
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 CC = gcc
-NAME = philosophers
+NAME = philo
 
 all: $(NAME)
 

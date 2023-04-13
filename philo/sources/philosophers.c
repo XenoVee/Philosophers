@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 19:15:17 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 13:38:54 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+
+#include <stdlib.h>
 
 int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
 {
@@ -50,7 +52,6 @@ void	*threadfunc(void *p)
 	eat = timestamp();
 	if (args->philo % 2)
 		usleep(ft_min(5000, args->params->teat * 1000 - 100));
-	// pthread_mutex_lock(&args->params->dead_mutex);
 	while (all_alive(args) && !all_finished(args))
 	{
 		grab_fork(args, args->fork, eat);
@@ -69,24 +70,37 @@ void	*threadfunc(void *p)
 	return (NULL);
 }
 
+void	leaks(void)
+{
+	system("leaks -q philo");
+}
+
 int	main(int argc, char **argv)
 {
 	unsigned int	i;
-	pthread_t		thread;
+	pthread_t		*thread;
 	t_dllist		*forks;
 	t_args			**args;
 	t_params		params;
 
+	// atexit(leaks);
 	if (parse_input(&params, argc, argv))
 		return (1);
 	i = 0;
 	forks = make_table(params.nphilo);
 	cdl_listgetnode(forks, i);
 	args = setup_args(params.nphilo, forks, &params);
+	thread = malloc((params.nphilo + 1) * sizeof(pthread_t *));
+	thread[params.nphilo] = NULL;
 	while (i < params.nphilo)
 	{
-		pthread_create(&thread, NULL, &threadfunc, (void *)args[i]);
+		pthread_create(&thread[i], NULL, &threadfunc, (void *)args[i]);
 		i++;
 	}
-	pthread_join(thread, NULL);
+	i = 0;
+	while (i < params.nphilo)
+	{
+		pthread_join(thread[i], NULL);
+		i++;
+	}
 }
