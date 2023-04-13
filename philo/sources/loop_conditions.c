@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/09 18:18:48 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/11 16:45:45 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:20:11 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	all_alive(t_args *args)
 
 	ret = TRUE;
 	pthread_mutex_lock(&args->params->dead_mutex);
-	// fprintf(stderr, "%p (size %lu)\n", &args->params->dead, sizeof(args->params->dead));
 	if (args->params->dead == TRUE)
 		ret = FALSE;
 	pthread_mutex_unlock(&args->params->dead_mutex);

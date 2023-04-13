@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/13 13:38:54 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:19:48 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	*threadfunc(void *p)
 		message(args, EAT);
 		i++;
 		eat = timestamp();
-		ft_usleep(args->params->teat);
 		if ((unsigned int)i == args->params->neat)
 			set_finished(args);
+		ft_usleep(args->params->teat);
 		pthread_mutex_unlock(&args->fork->mutex);
 		pthread_mutex_unlock(&args->fork->next->mutex);
 		message(args, SLEEP);

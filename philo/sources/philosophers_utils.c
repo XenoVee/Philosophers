@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 16:21:04 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/09 19:08:22 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/13 14:17:19 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ unsigned long	timestamp(void)
 
 void	message(t_args *args, int message)
 {
-	pthread_mutex_lock(&args->params->start_mutex);
 	if (!all_alive(args) || all_finished(args))
 	{
-		pthread_mutex_unlock(&args->params->start_mutex);
 		return ;
 	}
 	if (message == FORK)
@@ -42,7 +40,6 @@ void	message(t_args *args, int message)
 	else if (message == THINK)
 		printf("%lu %i is thinking\n",
 			timestamp() - args->params->start_time, args->philo);
-	pthread_mutex_unlock(&args->params->start_mutex);
 }
 
 void	ft_usleep(unsigned int t)
