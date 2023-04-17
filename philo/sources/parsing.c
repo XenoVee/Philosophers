@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/13 16:09:02 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/17 13:18:00 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,20 @@ t_dllist	*make_table(int nphilos)
 
 t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 {
-	t_args	**args;
-	int		i;
+	t_args		**args;
+	int			i;
+	t_dlnode	*node;
 
 	i = 0;
 	args = malloc(sizeof(t_args *) * (nphilo + 1));
 	args[nphilo] = NULL;
+	node = cdl_listgetnode(list, i);
 	while (i < nphilo)
 	{
 		args[i] = malloc(sizeof(t_args));
 		args[i]->philo = i + 1;
-		args[i]->fork = cdl_listgetnode(list, i);
+		args[i]->fork = node;
+		node = node->next;
 		args[i]->params = params;
 		i++;
 	}

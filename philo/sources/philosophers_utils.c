@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 16:21:04 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/13 14:17:19 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/17 13:25:45 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ void	message(t_args *args, int message)
 		printf("%lu %i has taken a fork\n",
 			timestamp() - args->params->start_time, args->philo);
 	else if (message == EAT)
+	{
+		ft_usleep(1);
 		printf("%lu %i is eating\n",
 			timestamp() - args->params->start_time, args->philo);
+	}
 	else if (message == SLEEP)
 		printf("%lu %i is sleeping\n",
 			timestamp() - args->params->start_time, args->philo);

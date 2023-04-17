@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/13 16:13:01 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/17 13:29:48 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	*threadfunc(void *p)
 
 	args = p;
 	i = 0;
+	pthread_mutex_lock(&args->params->start_mutex);
+	pthread_mutex_unlock(&args->params->start_mutex);
 	eat = timestamp();
 	if (args->philo % 2)
 		usleep(ft_min(5000, args->params->teat * 1000 - 100));
-	// pthread_mutex_lock(&args->params->start_mutex);
-	// pthread_mutex_unlock(&args->params->start_mutex);
 	while (all_alive(args) && !all_finished(args))
 	{
 		grab_fork(args, args->fork, eat);
@@ -73,6 +73,7 @@ void	*threadfunc(void *p)
 void	leaks(void)
 {
 	system("leaks -q philo");
+	atexit(leaks);
 }
 
 static void	free_things(pthread_t *thread, t_dllist *forks, t_args **args)
@@ -90,20 +91,24 @@ int	main(int argc, char **argv)
 	t_args			**args;
 	t_params		params;
 
-	atexit(leaks);
 	if (parse_input(&params, argc, argv))
 		return (1);
 	i = 0;
 	forks = make_table(params.nphilo);
 	args = setup_args(params.nphilo, forks, &params);
 	thread = malloc((params.nphilo) * sizeof(pthread_t *));
+	pthread_mutex_lock(&params.start_mutex);
 	while (i < params.nphilo)
 	{
-		// pthread_mutex_lock(&params.start_mutex);
-		pthread_create(&thread[i], NULL, &threadfunc, (void *)args[i]);
+		if (pthread_create(&thread[i], NULL, &threadfunc, (void *)args[i]) != 0
+			&& params.dead == 0)
+		{
+			params.dead = 1;
+			eerror("thread creation failed");
+		}
 		i++;
 	}
-	// pthread_mutex_unlock(&params.start_mutex);
+	pthread_mutex_unlock(&params.start_mutex);
 	i = 0;
 	while (i < params.nphilo)
 	{
