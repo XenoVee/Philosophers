@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/17 13:29:48 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/17 13:40:33 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,24 @@ int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
 	return (0);
 }
 
+t_args	*thread_setup(void *p)
+{
+	t_args			*args;
+
+	args = p;
+	pthread_mutex_lock(&args->params->start_mutex);
+	pthread_mutex_unlock(&args->params->start_mutex);
+	return (args);
+}
+
 void	*threadfunc(void *p)
 {
 	t_args			*args;
 	unsigned int	eat;
 	int				i;
 
-	args = p;
+	args = thread_setup(p);
 	i = 0;
-	pthread_mutex_lock(&args->params->start_mutex);
-	pthread_mutex_unlock(&args->params->start_mutex);
 	eat = timestamp();
 	if (args->philo % 2)
 		usleep(ft_min(5000, args->params->teat * 1000 - 100));
@@ -70,14 +78,25 @@ void	*threadfunc(void *p)
 	return (NULL);
 }
 
-void	leaks(void)
-{
-	system("leaks -q philo");
-	atexit(leaks);
-}
+// void	leaks(void)
+// {
+// 	system("leaks -q philo");
+// 	atexit(leaks);
+// }
 
-static void	free_things(pthread_t *thread, t_dllist *forks, t_args **args)
+static void	finish(pthread_t *thread, t_dllist *forks,
+	t_args **args, t_params *params)
 {
+	unsigned int	i;
+
+	pthread_mutex_unlock(&params->start_mutex);
+	i = 0;
+	while (i < params->nphilo)
+	{
+		pthread_join(thread[i], NULL);
+		free(args[i]);
+		i++;
+	}
 	free (thread);
 	cdl_listclear(forks);
 	free (args);
@@ -108,13 +127,5 @@ int	main(int argc, char **argv)
 		}
 		i++;
 	}
-	pthread_mutex_unlock(&params.start_mutex);
-	i = 0;
-	while (i < params.nphilo)
-	{
-		pthread_join(thread[i], NULL);
-		free(args[i]);
-		i++;
-	}
-	free_things(thread, forks, args);
+	finish(thread, forks, args, &params);
 }
