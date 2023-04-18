@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/13 14:42:41 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/13 14:53:01 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/18 14:22:18 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,23 @@ int	max_check(const char *str)
 	return (ret);
 }
 
+unsigned int	ft_strlen( char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 int	isint(char *str)
 {
 	int	i;
 
 	i = 0;
+	if (ft_strlen(str) == 0 || ft_atoi(str) == 0)
+		return (0);
 	if (str[i] == '-')
 		return (0);
 	if (str[i] == '+')

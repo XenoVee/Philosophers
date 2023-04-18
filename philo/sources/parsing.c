@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/17 13:18:00 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/18 14:35:25 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 	return (args);
 }
 
+static int	setup_neat(t_params *params, int argc, char **argv)
+{
+	params->neat = 0;
+	if (argc == 6)
+	{
+		params->neat = ft_atoi(argv[5]);
+		if (params->neat == 0)
+			return (0);
+	}
+	return (1);
+}
+
 int	parse_input(t_params *params, int argc, char **argv)
 {
 	int				i;
@@ -71,9 +83,8 @@ int	parse_input(t_params *params, int argc, char **argv)
 	params->tsleep = ft_atoi(argv[4]);
 	params->dead = FALSE;
 	pthread_mutex_init(&params->dead_mutex, NULL);
-	params->neat = 0;
-	if (argc == 6)
-		params->neat = ft_atoi(argv[5]);
+	if (setup_neat(params, argc, argv) == 0)
+		return (eerror("Invalid argument"));
 	params->finished = 0;
 	pthread_mutex_init(&params->fin_mutex, NULL);
 	pthread_mutex_init(&params->start_mutex, NULL);

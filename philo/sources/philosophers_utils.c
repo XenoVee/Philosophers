@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 16:21:04 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/17 13:25:45 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/17 18:23:12 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,47 @@ unsigned long	timestamp(void)
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
+// if (!all_alive(args) || all_finished(args))
+// 	{
+// 		return ;
+// 	}
+
+static int	check_message(t_args *args)
+{
+	pthread_mutex_lock(&args->params->dead_mutex);
+	if (args->params->dead == TRUE)
+	{
+		pthread_mutex_unlock(&args->params->dead_mutex);
+		return (1);
+	}
+	pthread_mutex_lock(&args->params->fin_mutex);
+	if (args->params->finished == args->params->nphilo)
+	{
+		pthread_mutex_unlock(&args->params->dead_mutex);
+		pthread_mutex_unlock(&args->params->fin_mutex);
+		return (1);
+	}
+	return (0);
+}
 
 void	message(t_args *args, int message)
 {
-	if (!all_alive(args) || all_finished(args))
-	{
+	if (check_message(args) == 1)
 		return ;
-	}
 	if (message == FORK)
 		printf("%lu %i has taken a fork\n",
 			timestamp() - args->params->start_time, args->philo);
 	else if (message == EAT)
-	{
-		ft_usleep(1);
 		printf("%lu %i is eating\n",
 			timestamp() - args->params->start_time, args->philo);
-	}
 	else if (message == SLEEP)
 		printf("%lu %i is sleeping\n",
 			timestamp() - args->params->start_time, args->philo);
 	else if (message == THINK)
 		printf("%lu %i is thinking\n",
 			timestamp() - args->params->start_time, args->philo);
+	pthread_mutex_unlock(&args->params->fin_mutex);
+	pthread_mutex_unlock(&args->params->dead_mutex);
 }
 
 void	ft_usleep(unsigned int t)
