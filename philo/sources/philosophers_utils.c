@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/02 16:21:04 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/17 18:23:12 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/04/18 14:35:59 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ unsigned long	timestamp(void)
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
-// if (!all_alive(args) || all_finished(args))
-// 	{
-// 		return ;
-// 	}
 
 static int	check_message(t_args *args)
 {
