@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/23 14:37:59 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/23 14:59:16 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,19 @@ void	*threadfunc(void *p)
 // void	leaks(void)
 // {
 // 	system("leaks -q philo");
-// 	atexit(leaks);
+	// atexit(leaks);
 // }
 
 static void	finish(pthread_t *thread, t_dllist *forks,
-	t_args **args, t_params *params)
+	t_args **args, int k)
 {
 	unsigned int	i;
+	t_params		*params;
 
+	params = args[0]->params;
 	pthread_mutex_unlock(&params->start_mutex);
 	i = 0;
-	while (i < params->nphilo)
+	while (i < (unsigned int)k)
 	{
 		pthread_join(thread[i], NULL);
 		free(args[i]);
@@ -137,5 +139,5 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	pthread_create(&thread[i], NULL, &reaperfunc, &params);
-	finish(thread, forks, args, &params);
+	finish(thread, forks, args, i);
 }

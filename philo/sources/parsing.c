@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/23 14:15:38 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/23 15:00:03 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 		args[i]->params = params;
 		i++;
 	}
-	write(1, "2\n", 2);
 	return (args);
 }
 
