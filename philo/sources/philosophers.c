@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/23 14:59:16 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/23 16:16:08 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	grab_fork(t_args *args, t_dlnode *fork)
 	if (args->params->nphilo == 1)
 	{
 		ft_usleep(args->params->tdie);
-		printf("%lu %i has died\n",
-			timestamp() - 1 - args->params->start_time, args->philo);
 		pthread_mutex_lock(&args->params->dead_mutex);
 		args->params->dead = TRUE;
 		pthread_mutex_unlock(&args->params->dead_mutex);
@@ -102,7 +100,7 @@ static void	finish(pthread_t *thread, t_dllist *forks,
 	params = args[0]->params;
 	pthread_mutex_unlock(&params->start_mutex);
 	i = 0;
-	while (i < (unsigned int)k)
+	while (i < (unsigned int)k + 1)
 	{
 		pthread_join(thread[i], NULL);
 		free(args[i]);

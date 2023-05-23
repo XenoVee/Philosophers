@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/05/23 14:46:04 by rmaes         ########   odam.nl          #
+#    Updated: 2023/05/23 16:16:36 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJECTS = $(addprefix $(OBJECTS_DIR), $(FILES:.c=.o))
 
 CDL_LIST = cdl_list/cdl_list.a
 
-CFLAGS = -Wall -Wextra -Werror# -g -fsanitize=thread 
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread 
 CC = gcc
 NAME = philo
 
