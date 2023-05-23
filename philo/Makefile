@@ -6,7 +6,7 @@
 #    By: rmaes <rmaes@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/02/13 15:25:40 by rmaes         #+#    #+#                  #
-#    Updated: 2023/04/18 14:14:03 by rmaes         ########   odam.nl          #
+#    Updated: 2023/05/23 14:37:00 by rmaes         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ GREEN = \033[0;92m
 YELLOW = \033[0;93m
 
 SOURCES_DIR = sources/
-FILES =	philosophers.c philosophers_utils.c ft_atoi.c parsing.c loop_conditions.c isint.c
+FILES =	philosophers.c philosophers_utils.c ft_atoi.c parsing.c loop_conditions.c isint.c reaper.c
 SOURCES = $(addprefix $(SOURCES_DIR), $(FILES))
 
 OBJECTS_DIR = objects/

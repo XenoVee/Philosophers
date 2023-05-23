@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/18 14:35:25 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/23 14:15:38 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <stdio.h>
+#include <unistd.h>
 
 t_dllist	*make_table(int nphilos)
 {
@@ -37,6 +38,7 @@ t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 	t_dlnode	*node;
 
 	i = 0;
+	params->forks = list;
 	args = malloc(sizeof(t_args *) * (nphilo + 1));
 	args[nphilo] = NULL;
 	node = cdl_listgetnode(list, i);
@@ -49,6 +51,7 @@ t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 		args[i]->params = params;
 		i++;
 	}
+	write(1, "2\n", 2);
 	return (args);
 }
 

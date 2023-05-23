@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/04/17 13:40:33 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/23 14:37:59 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
-
+#include <limits.h>
 #include <stdlib.h>
 
-int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
+int	grab_fork(t_args *args, t_dlnode *fork)
 {
 	if (args->params->nphilo != 1)
 		pthread_mutex_lock(&fork->mutex);
-	check_dead(args, eat);
 	message(args, FORK);
 	if (args->params->nphilo == 1)
 	{
@@ -34,19 +33,31 @@ int	grab_fork(t_args *args, t_dlnode *fork, unsigned int eat)
 		return (1);
 	}
 	pthread_mutex_lock(&fork->next->mutex);
-	check_dead(args, eat);
 	message(args, FORK);
 	return (0);
 }
 
-t_args	*thread_setup(void *p)
+t_args	*thread_seteat(void *p, int mode)
 {
 	t_args			*args;
 
 	args = p;
-	pthread_mutex_lock(&args->params->start_mutex);
-	pthread_mutex_unlock(&args->params->start_mutex);
-	return (args);
+	if (mode == 0)
+	{
+		pthread_mutex_lock(&args->params->start_mutex);
+		pthread_mutex_unlock(&args->params->start_mutex);
+		thread_seteat(p, 1);
+		if (args->philo % 2)
+			usleep(ft_min(5000, args->params->teat * 1000 - 100));
+		return (args);
+	}
+	else
+	{
+		pthread_mutex_lock(&args->fork->eatex);
+		args->fork->eat = timestamp();
+		pthread_mutex_unlock(&args->fork->eatex);
+		return (NULL);
+	}
 }
 
 void	*threadfunc(void *p)
@@ -55,17 +66,15 @@ void	*threadfunc(void *p)
 	unsigned int	eat;
 	int				i;
 
-	args = thread_setup(p);
+	args = thread_seteat(p, 0);
 	i = 0;
 	eat = timestamp();
-	if (args->philo % 2)
-		usleep(ft_min(5000, args->params->teat * 1000 - 100));
-	while (all_alive(args) && !all_finished(args))
+	while (all_alive(args->params) && !all_finished(args->params))
 	{
-		grab_fork(args, args->fork, eat);
+		grab_fork(args, args->fork);
 		message(args, EAT);
 		i++;
-		eat = timestamp();
+		thread_seteat(p, 1);
 		if ((unsigned int)i == args->params->neat)
 			set_finished(args);
 		ft_usleep(args->params->teat);
@@ -127,5 +136,6 @@ int	main(int argc, char **argv)
 		}
 		i++;
 	}
+	pthread_create(&thread[i], NULL, &reaperfunc, &params);
 	finish(thread, forks, args, &params);
 }

@@ -6,7 +6,7 @@
 /*   By: athena <athena@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/13 13:05:43 by athena        #+#    #+#                 */
-/*   Updated: 2023/04/04 15:31:07 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/23 14:31:19 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct s_dlnode
 {
 	struct s_dlnode	*prev;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	eatex;
+	unsigned long	eat;
 	unsigned int	n;
 	struct s_dlnode	*next;
 }				t_dlnode;
