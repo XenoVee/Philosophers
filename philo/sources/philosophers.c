@@ -6,17 +6,12 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/26 15:39:19 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/26 15:43:25 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <stdlib.h>
-
-void	leaks(void)
-{
-	system("leaks -q philo");
-}
 
 static void	finish(pthread_t *thread, t_dllist *forks,
 	t_args **args, int k)
@@ -71,6 +66,12 @@ static void	mainlen(t_args **args, pthread_t *thread)
 	finish(thread, args[0]->params->forks, args, i);
 }
 
+void	leaks(void)
+{
+	system("leaks -q philo");
+	atexit(leaks);
+}
+
 int	main(int argc, char **argv)
 {
 	pthread_t		*thread;
@@ -78,7 +79,6 @@ int	main(int argc, char **argv)
 	t_args			**args;
 	t_params		params;
 
-	atexit(leaks);
 	if (parse_input(&params, argc, argv))
 		return (1);
 	forks = make_table(params.nphilo);
