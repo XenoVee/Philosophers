@@ -12,3 +12,4 @@
 !loop_conditions.c
 !isint.c
 !reaper.c
+!thread.c

@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:37:10 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/23 14:36:01 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/26 12:52:10 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,9 @@ int				all_finished(t_params *params);
 void			set_finished(t_args *args);
 int				max_check(const char *str);
 int				ft_strcmp(const char *str1, const char *str2);
+
+int				grab_fork(t_args *args, t_dlnode *fork);
+t_args			*thread_seteat(void *p, int mode);
+void			*threadfunc(void *p);
 
 #endif

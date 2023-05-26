@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 17:42:08 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/23 15:00:03 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/26 15:38:59 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,35 @@ t_dllist	*make_table(int nphilos)
 
 	i = 0;
 	list = cdl_listinit();
+	if (list == NULL)
+		return (NULL);
 	while (i++ < nphilos)
-		cdl_listaddback(list, cdl_nodenew(i));
+	{
+		if (cdl_listaddback(list, cdl_nodenew(i)))
+		{
+			cdl_listclear(list);
+			return (NULL);
+		}
+	}
 	i = 0;
 	node = list->head;
 	return (list);
+}
+
+static int	free_args(t_args **args, int f)
+{
+	int	i;
+
+	i = 0;
+	if (args[f] != NULL)
+		return (0);
+	while (i <= f)
+	{
+		free (args[i]);
+		i++;
+	}
+	free (args);
+	return (1);
 }
 
 t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
@@ -40,11 +64,15 @@ t_args	**setup_args(int nphilo, t_dllist *list, t_params *params)
 	i = 0;
 	params->forks = list;
 	args = malloc(sizeof(t_args *) * (nphilo + 1));
+	if (args == NULL)
+		return (NULL);
 	args[nphilo] = NULL;
 	node = cdl_listgetnode(list, i);
 	while (i < nphilo)
 	{
 		args[i] = malloc(sizeof(t_args));
+		if (free_args(args, i))
+			return (NULL);
 		args[i]->philo = i + 1;
 		args[i]->fork = node;
 		node = node->next;

@@ -6,7 +6,7 @@
 /*   By: athena <athena@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/13 13:05:43 by athena        #+#    #+#                 */
-/*   Updated: 2023/05/23 14:31:19 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/26 13:25:41 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_dllist
 	t_dlnode	*head;
 }				t_dllist;
 
-void		cdl_listaddback(t_dllist *list, t_dlnode *node);
+int			cdl_listaddback(t_dllist *list, t_dlnode *node);
 void		cdl_listaddfront(t_dllist *list, t_dlnode *node);
 void		cdl_listdecr(t_dllist *list);
 void		cdl_listincr(t_dllist *list);
