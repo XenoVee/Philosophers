@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/30 16:29:54 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/30 16:36:09 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 static void	finish(pthread_t *thread, t_dllist *forks,
-	t_args **args, int k)
+	t_args **args, unsigned int k)
 {
 	unsigned int	i;
 	t_params		*params;
@@ -22,9 +22,14 @@ static void	finish(pthread_t *thread, t_dllist *forks,
 	params = args[0]->params;
 	pthread_mutex_unlock(&params->start_mutex);
 	i = 0;
-	while (i < (unsigned int)k + 1)
+	while (i < k + 1)
 	{
 		pthread_join(thread[i], NULL);
+		i++;
+	}
+	i = 0;
+	while (args[i])
+	{
 		free(args[i]);
 		i++;
 	}
@@ -69,11 +74,10 @@ static void	mainlen(t_args **args, pthread_t *thread)
 	finish(thread, args[0]->params->forks, args, i);
 }
 
-// void	leaks(void)
-// {
-// 	system("leaks -q philo");
-// 	atexit(leaks);
-// }
+void	leaks(void)
+{
+	system("leaks -q philo");
+}
 
 int	main(int argc, char **argv)
 {
@@ -82,6 +86,7 @@ int	main(int argc, char **argv)
 	t_args			**args;
 	t_params		params;
 
+	atexit(leaks);
 	if (parse_input(&params, argc, argv))
 		return (1);
 	forks = make_table(params.nphilo);
