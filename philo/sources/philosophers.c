@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/30 16:36:09 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/30 16:41:22 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ static void	mainlen(t_args **args, pthread_t *thread)
 	finish(thread, args[0]->params->forks, args, i);
 }
 
-void	leaks(void)
-{
-	system("leaks -q philo");
-}
+// void	leaks(void)
+// {
+// 	system("leaks -q philo");
+// 	atexit(leaks);
+// }
 
 int	main(int argc, char **argv)
 {
@@ -86,7 +87,6 @@ int	main(int argc, char **argv)
 	t_args			**args;
 	t_params		params;
 
-	atexit(leaks);
 	if (parse_input(&params, argc, argv))
 		return (1);
 	forks = make_table(params.nphilo);
