@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/30 16:24:30 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/30 16:29:54 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	mainlen(t_args **args, pthread_t *thread)
 
 	i = 0;
 	pthread_mutex_lock(&args[0]->params->start_mutex);
-	while (i < args[0]->params->nphilo)
+	while (i < args[0]->params->nphilo && args[0]->params->dead == 0)
 	{
 		if (pthread_create(&thread[i], NULL, &threadfunc, (void *)args[i]) != 0
 			&& args[0]->params->dead == 0)
