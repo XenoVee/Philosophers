@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/26 15:43:25 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/30 15:54:31 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ static void	finish(pthread_t *thread, t_dllist *forks,
 		free(args[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&params->fin_mutex);
+	pthread_mutex_destroy(&params->start_mutex);
+	pthread_mutex_destroy(&params->dead_mutex);
 	free (thread);
 	cdl_listclear(forks);
 	free (args);

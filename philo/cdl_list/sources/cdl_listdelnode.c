@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/13 17:02:37 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/02/13 15:45:23 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/30 15:51:12 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@ void	cdl_listdelnode(t_dllist *list, int n)
 	t_dlnode	*node;
 
 	node = cdl_listpopnode(list, n);
+	pthread_mutex_destroy(&node->mutex);
+	pthread_mutex_destroy(&node->eatex);
 	free(node);
 }
