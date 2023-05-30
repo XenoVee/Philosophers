@@ -6,7 +6,7 @@
 /*   By: rmaes <rmaes@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/13 16:25:51 by rmaes         #+#    #+#                 */
-/*   Updated: 2023/05/30 15:54:31 by rmaes         ########   odam.nl         */
+/*   Updated: 2023/05/30 16:24:30 by rmaes         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ static void	mainlen(t_args **args, pthread_t *thread)
 	finish(thread, args[0]->params->forks, args, i);
 }
 
-void	leaks(void)
-{
-	system("leaks -q philo");
-	atexit(leaks);
-}
+// void	leaks(void)
+// {
+// 	system("leaks -q philo");
+// 	atexit(leaks);
+// }
 
 int	main(int argc, char **argv)
 {
